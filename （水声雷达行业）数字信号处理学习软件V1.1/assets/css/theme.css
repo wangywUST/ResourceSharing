@@ -1,0 +1,237 @@
+/* =============================================================
+   theme.css —— 设计令牌（Design Tokens）
+   数字信号处理知识学习软件
+   理工科专业风格：低饱和、高对比、信息密度优先
+   ============================================================= */
+
+:root {
+  /* ---------- 字体 ---------- */
+  --font-sans: "Inter", "Segoe UI", "Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", "Cascadia Mono", "Consolas", "SFMono-Regular", Menlo, monospace;
+  --font-serif: "Source Serif Pro", "Songti SC", "SimSun", Georgia, serif;
+
+  --fs-xs: 12px;
+  --fs-sm: 13px;
+  --fs-md: 15px;
+  --fs-lg: 17px;
+  --fs-xl: 21px;
+  --fs-2xl: 26px;
+  --fs-3xl: 32px;
+
+  /* ---------- 间距 ---------- */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 24px;
+  --sp-6: 32px;
+  --sp-7: 48px;
+
+  --radius-sm: 4px;
+  --radius: 6px;
+  --radius-lg: 10px;
+
+  /* ---------- 尺寸 ---------- */
+  --topbar-h: 54px;
+  --sidebar-w: 286px;
+  --content-max: 1180px;
+
+  /* ---------- 阴影 ---------- */
+  --shadow-sm: 0 1px 2px rgba(16, 24, 40, .06);
+  --shadow: 0 2px 8px rgba(16, 24, 40, .10);
+  --shadow-lg: 0 8px 28px rgba(16, 24, 40, .16);
+}
+
+/* =========================== 浅色主题（默认） =========================== */
+:root,
+[data-theme="light"] {
+  --bg: #f4f6f9;
+  --bg-elev: #ffffff;
+  --bg-sunken: #eceff4;
+  --bg-side: #ffffff;
+  --bg-code: #f6f8fa;
+  --bg-hover: #eef2f7;
+  --bg-active: #e4edf9;
+
+  --text: #24303f;
+  --text-strong: #101a26;
+  --text-dim: #64748b;
+  --text-faint: #94a3b8;
+  --text-inv: #ffffff;
+
+  --border: #dfe5ec;
+  --border-strong: #c4ceda;
+
+  --accent: #1b5aa4;         /* 主色：工程蓝 */
+  --accent-hover: #154a89;
+  --accent-soft: #e9f1fb;
+  --accent-border: #b6d0ee;
+
+  --teal: #0f766e;           /* 辅色：声呐青 */
+  --teal-soft: #e4f4f1;
+  --orange: #c2410c;         /* 强调：雷达橙 */
+  --orange-soft: #fdece3;
+  --purple: #6d28d9;
+  --purple-soft: #f0e9fd;
+
+  --ok: #15803d;
+  --ok-soft: #e7f6ec;
+  --warn: #b45309;
+  --warn-soft: #fdf3e3;
+  --danger: #b91c1c;
+  --danger-soft: #fdeaea;
+
+  /* 绘图引擎（Canvas 通过 CSS 变量读取，保证主题一致） */
+  --plot-bg: #ffffff;
+  --plot-area: #fbfcfe;
+  --plot-grid: #e8ecf2;
+  --plot-axis: #9aa7b6;
+  --plot-label: #55636f;
+  --plot-c1: #1b5aa4;   /* 主曲线 */
+  --plot-c2: #c2410c;   /* 次曲线 */
+  --plot-c3: #0f766e;   /* 第三曲线 */
+  --plot-c4: #6d28d9;
+  --plot-c5: #b45309;
+  --plot-fill: rgba(27, 90, 164, .10);
+  --plot-cmap-low: #f7fbff;
+  --plot-cmap-mid: #4a90d9;
+  --plot-cmap-high: #f97316;
+
+  --shadow-color: rgba(16, 24, 40, .12);
+  color-scheme: light;
+}
+
+/* =========================== 深色主题 =========================== */
+[data-theme="dark"] {
+  --bg: #0d1117;
+  --bg-elev: #161b22;
+  --bg-sunken: #0b0f14;
+  --bg-side: #10161d;
+  --bg-code: #10161d;
+  --bg-hover: #1c2430;
+  --bg-active: #1c2c44;
+
+  --text: #c9d4e0;
+  --text-strong: #e8eef5;
+  --text-dim: #8b9aab;
+  --text-faint: #64748b;
+  --text-inv: #0d1117;
+
+  --border: #2a323d;
+  --border-strong: #3b4552;
+
+  --accent: #58a6ff;
+  --accent-hover: #79b8ff;
+  --accent-soft: #12253d;
+  --accent-border: #2b4f7a;
+
+  --teal: #2dd4bf;
+  --teal-soft: #0f2e2a;
+  --orange: #fb923c;
+  --orange-soft: #3a2415;
+  --purple: #a78bfa;
+  --purple-soft: #241a3d;
+
+  --ok: #3fb950;
+  --ok-soft: #102a17;
+  --warn: #d29922;
+  --warn-soft: #332612;
+  --danger: #f85149;
+  --danger-soft: #3a1615;
+
+  --plot-bg: #10161d;
+  --plot-area: #131a22;
+  --plot-grid: #222b35;
+  --plot-axis: #7d8b99;
+  --plot-label: #a9b6c4;
+  --plot-c1: #58a6ff;
+  --plot-c2: #fb923c;
+  --plot-c3: #2dd4bf;
+  --plot-c4: #a78bfa;
+  --plot-c5: #d29922;
+  --plot-fill: rgba(88, 166, 255, .14);
+  --plot-cmap-low: #0b1220;
+  --plot-cmap-mid: #2b6cb0;
+  --plot-cmap-high: #ffb35c;
+
+  --shadow-color: rgba(0, 0, 0, .55);
+  color-scheme: dark;
+}
+
+/* 深色下反向修正 KaTeX 与代码高亮对比度 */
+[data-theme="dark"] .katex { color: var(--text-strong); }
+[data-theme="dark"] img { filter: none; }
+
+/* ---------- 全局基础 ---------- */
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: var(--fs-md);
+  line-height: 1.75;
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow: hidden;                 /* 由内部容器滚动 */
+}
+
+h1, h2, h3, h4, h5 {
+  color: var(--text-strong);
+  font-weight: 650;
+  line-height: 1.35;
+  margin: 0;
+  letter-spacing: -.01em;
+}
+
+p { margin: 0 0 var(--sp-3); }
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+a:hover { text-decoration: underline; }
+
+code, pre, .mono {
+  font-family: var(--font-mono);
+  font-variant-ligatures: none;
+}
+
+::selection {
+  background: var(--accent-soft);
+  color: var(--text-strong);
+}
+
+/* 滚动条：细窄、低调 */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-strong) transparent;
+}
+*::-webkit-scrollbar { width: 10px; height: 10px; }
+*::-webkit-scrollbar-track { background: transparent; }
+*::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: 6px;
+  border: 3px solid var(--bg);
+}
+*::-webkit-scrollbar-thumb:hover { background: var(--text-faint); }
+
+/* 焦点可见性（键盘可达性） */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* 打印：转白底、去掉侧栏 */
+@media print {
+  body { overflow: visible; background: #fff; color: #000; }
+  .topbar, .sidebar, .no-print { display: none !important; }
+  .main { padding: 0; }
+}

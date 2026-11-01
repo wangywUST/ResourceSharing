@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>前视声呐时域信号级仿真系统</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ===================== 顶部全局菜单栏 ===================== -->
+<header id="topbar">
+  <div class="brand">
+    <span class="brand-title">前视声呐时域信号级仿真系统</span>
+    <span class="brand-sub">FLS-TDSIM V3.7</span>
+  </div>
+  <nav id="menubar">
+    <div class="menu-root" data-menu="file"><span class="menu-title">文件</span>
+      <div class="menu-drop">
+        <div class="menu-item" data-act="proj-save">保存工程…</div>
+        <div class="menu-item" data-act="proj-load">加载工程…</div>
+        <div class="menu-sep"></div>
+        <div class="menu-item" data-act="exp-csv-sig">导出阵元时域信号 (CSV)</div>
+        <div class="menu-item" data-act="exp-csv-img">导出成像幅值矩阵 (CSV)</div>
+        <div class="menu-item" data-act="exp-png">导出声呐图像 (PNG)</div>
+        <div class="menu-item" data-act="exp-report">导出仿真日志报告 (TXT)</div>
+        <div class="menu-sep"></div>
+        <div class="menu-item" data-act="tpl">算例模板…</div>
+      </div>
+    </div>
+    <div class="menu-root" data-menu="view"><span class="menu-title">视图设置</span>
+      <div class="menu-drop">
+        <div class="menu-item chk" data-act="view-scene">三维场景设置（1）</div>
+        <div class="menu-item chk" data-act="view-demo">原理演示（2）</div>
+        <div class="menu-item chk" data-act="view-image">前视声呐成像（3）</div>
+        <div class="menu-sep"></div>
+        <div class="menu-item chk" data-act="tog-signal">阵元信号小图</div>
+        <div class="menu-item chk" data-act="tog-left">左侧参数面板</div>
+        <!-- V3.0：原「右侧控制台」随控制台一起移到底部，改称「底部控制台」。
+             开关的是同一个东西，只是位置与 id 变了（rightPanels → bottomConsole）。 -->
+        <div class="menu-item chk" data-act="tog-console">底部控制台</div>
+        <div class="menu-sep"></div>
+        <div class="menu-item" data-act="theme">界面主题（浅色 / 深色）</div>
+        <div class="menu-sep"></div>
+        <div class="menu-item chk" data-act="d-axes">坐标系 (ENU)</div>
+        <div class="menu-item chk" data-act="d-scale">标尺/刻度</div>
+        <div class="menu-item chk" data-act="d-grid">海底网格</div>
+        <div class="menu-item chk" data-act="d-heightColor">海底深度着色</div>
+        <div class="menu-item chk" data-act="d-bbox">目标包围盒</div>
+        <div class="menu-item chk" data-act="d-cone">发射扫描扇面（淡蓝）</div>
+        <div class="menu-item chk" data-act="d-rxCone">接收阵列覆盖（橙黄）</div>
+        <div class="menu-item chk" data-act="d-track">ROV 轨迹线</div>
+        <div class="menu-item chk" data-act="d-scatter">散射元标记</div>
+        <div class="menu-item chk" data-act="d-normal">海底法向量</div>
+        <div class="menu-sep"></div>
+        <div class="menu-item" data-act="cam-top">俯视图</div>
+        <div class="menu-item" data-act="cam-side">侧视图</div>
+        <div class="menu-item" data-act="cam-front">前视图</div>
+        <div class="menu-item" data-act="cam-follow">声呐跟随视角</div>
+        <div class="menu-sep"></div>
+        <div class="menu-item" data-act="measure">两点测距工具</div>
+      </div>
+    </div>
+    <!-- V2.1：顶栏「色标选择」菜单撤除 —— 声图色标在「前视声呐成像」视图栏，
+         海底深度色标在「三维场景设置」视图栏，各归各栏、各自一套可选色标。 -->
+    <div class="menu-root" data-menu="help"><span class="menu-title">帮助</span>
+      <div class="menu-drop">
+        <div class="menu-item" data-act="help-doc">使用手册说明</div>
+        <div class="menu-item" data-act="help-alg">算法与模型说明</div>
+        <div class="menu-item" data-act="help-key">键盘控制</div>
+        <div class="menu-sep"></div>
+        <div class="menu-item" data-act="about">关于</div>
+      </div>
+    </div>
+    <!-- V2.2：中英切换按钮撤除。本系统是中文专业软件，没有英文用户，
+         双语词典反而是持续负担（每加一个按钮都要补两条词条、漏一条就是半中半英）。 -->
+    <button id="themeBtn" class="btn-mini" title="界面主题：浅色 / 深色">深色</button>
+  </nav>
+  <div class="brand-slogan" id="brandSlogan" title="老海出手必是精品，更多好用工具关注海疆智造公众号抖音号">（老海出手必是精品，更多好用工具关注海疆智造公众号抖音号）</div>
+  <div class="brand-right">
+    <span id="engineMode" class="tag" title="仿真内核运行位置">内核: 待启动</span>
+    <span id="fpsTag" class="tag">-- FPS</span>
+  </div>
+</header>
+
+<!-- ===================== 主体布局：左参数 / 中视图 / 右控制台 ===================== -->
+<main id="layout">
+  <div id="workarea">
+
+  <!-- ========== 左：七页参数设置栏 ==========
+       V2.0 重构：原「场景资源与模型库」+「场景属性编辑面板」+「仿真参数总控面板」
+       三块合并成一条七页签参数栏。页签顺序 = 布一个仿真场景的先后顺序：
+       先铺海底 → 再放目标 → 定海洋环境 → 定载体 → 定发射 → 定接收阵 → 定成像处理。
+       「仿真参数总控面板」这一栏自此取消（其内容拆进本栏后五页）。 -->
+  <aside id="leftPanels">
+    <div class="ptabs" id="paramTabs">
+      <button class="ptab on" data-ptab="terrain">海底地形设置</button>
+      <button class="ptab" data-ptab="target">待测目标设置</button>
+      <button class="ptab" data-ptab="env">海洋环境设置</button>
+      <button class="ptab" data-ptab="rov">ROV载体设置</button>
+      <button class="ptab" data-ptab="tx">发射系统设置</button>
+      <button class="ptab" data-ptab="rx">接收阵列设置</button>
+      <button class="ptab" data-ptab="alg">成像处理设置</button>
+    </div>
+    <div class="ptab-body scroll" id="paramBody">
+      <div id="paramScroll"></div>
+    </div>
+  </aside>
+
+  <!-- ========== 中：三视图（三维场景设置 / 原理演示 / 前视声呐成像） ========== -->
+  <div id="center">
+    <!-- 视图切换栏 -->
+    <div class="viewbar" id="viewBar">
+      <div class="vb-group" id="viewModeGroup">
+        <button class="vbtn on" data-view="scene">三维场景设置</button>
+        <button class="vbtn" data-view="demo">原理演示</button>
+        <button class="vbtn" data-view="image">前视声呐成像</button>
+      </div>
+      <div class="vb-grow"></div>
+      <!-- 量程 / 色标 / 动态范围等随视图切换显示 -->
+      <div class="vb-group" id="vbScene">
+        <label class="vlab">量程</label>
+        <select class="sel-mini" id="selRmax">
+          <option value="30">30 m</option><option value="50">50 m</option>
+          <option value="60" selected>60 m</option><option value="80">80 m</option>
+          <option value="120">120 m</option>
+        </select>
+        <label class="vlab">垂直放大</label>
+        <input type="range" id="rngZexag" min="1" max="20" step="0.5" value="1" style="width:84px">
+        <span class="fval" id="valZexag">1.0×</span>
+        <!-- V2.1：海底深度色标（与成像色标是两套，只作用于三维海床顶点着色） -->
+        <label class="vlab">海底色标</label>
+        <select class="sel-mini" id="selTerrainCmap" title="三维海床按深度着色所用色标，与声图色标相互独立"></select>
+      </div>
+      <div class="vb-group hide" id="vbImage">
+        <label class="vlab">色标</label>
+        <select class="sel-mini" id="selCmapTop"></select>
+        <label class="vlab">动态范围</label>
+        <input type="range" id="rngDyn" min="12" max="80" step="1" value="48" style="width:96px">
+        <span class="fval" id="valDyn">48 dB</span>
+        <label class="vlab">窗偏移</label>
+        <input type="range" id="rngBri" min="-24" max="24" step="1" value="0" style="width:84px">
+        <span class="fval" id="valBri">+0 dB</span>
+      </div>
+      <div class="vb-group">
+        <span class="vp-note" id="frameTag">帧 --</span>
+      </div>
+    </div>
+
+    <!-- ---- 工具条 ①：三维场景设置（命令条） ---- -->
+    <div class="toolbar" id="barScene">
+      <div class="tb-group" id="sceneModeGroup">
+        <button class="tbtn on" data-act="sc-view">观察/拖动</button>
+        <button class="tbtn" data-act="brush">笔刷编辑</button>
+        <button class="tbtn" data-act="route" id="routePickBtn">航路打点</button>
+      </div>
+      <div class="tb-sep"></div>
+      <div class="tb-group">
+        <label class="vlab">单笔幅度</label>
+        <input type="number" id="edAmp" min="0.05" max="50" step="0.05" value="1" style="width:52px">
+        <label class="vlab">半径</label>
+        <input type="number" id="edR" min="1" max="200" step="1" value="15" style="width:52px">
+        <label class="vlab">形状</label>
+        <select class="sel-mini" id="edShape">
+          <option value="cos">升余弦</option><option value="gauss">高斯</option>
+        </select>
+        <button class="tbtn" data-act="ed-atrov">载体下方±1笔</button>
+        <button class="tbtn" data-act="ed-undo">撤销</button>
+        <button class="tbtn" data-act="ed-clear">清空</button>
+      </div>
+      <div class="tb-sep"></div>
+      <div class="tb-group">
+        <button class="tbtn" data-act="sc-save-terrain">保存地形</button>
+        <button class="tbtn" data-act="sc-load-terrain">加载地形</button>
+        <label class="chk-inline"><input type="checkbox" id="routeLoopChk" checked><span>闭环巡航</span></label>
+        <button class="tbtn" data-act="r-reverse">航路反向</button>
+        <button class="tbtn" data-act="r-clear">航路清空</button>
+        <button class="tbtn primary" data-act="r-run">按此航路巡航</button>
+      </div>
+      <div class="tb-grow"></div>
+      <div class="tb-group">
+        <button class="tbtn" data-act="cam-top" title="俯视图">俯视</button>
+        <button class="tbtn" data-act="cam-side" title="侧视图">侧视</button>
+        <button class="tbtn" data-act="cam-front" title="前视图">前视</button>
+        <button class="tbtn" data-act="cam-follow" title="声呐跟随视角">跟随</button>
+        <button class="tbtn" data-act="measure" title="两点测距">测距</button>
+        <button class="tbtn" data-act="fit" title="适配视野">适配</button>
+      </div>
+    </div>
+
+    <!-- V2.2：原先这条「场景面板（实例 / 地形编辑 / 航路 / 属性）」横带**整条删除**。
+         四个板块与左栏页签完全重复（实例 → 左栏「已加入的海底地形/水下目标」，
+         地形编辑 → 工具条的撤销/清空，航路 → 工具条的打点/反向/清空/巡航，
+         属性 → 左栏「选中…属性」），既占掉视口一整条高度，又让人分不清该看哪一处。
+         唯一不重复的是「闭环巡航」开关，已上移到上面的航路按钮组里。 -->
+
+    <!-- ---- 工具条 ②：原理演示 ----
+         ★ V3.7：原来这里只有一个「演示幕」下拉（一次只看一幕）。
+           现在改成两级：先选**演示版**（每版 4 幕，一条完整线索），
+           再选**排布**（2×2 看 4 幕 / 2×3 看 6 幕 / 全览 12 幕）。
+           播放/单步/速度对所有卡片同时生效。 -->
+    <div class="toolbar hide" id="barDemo">
+      <div class="tb-group">
+        <label class="vlab">演示版</label>
+        <select class="sel-mini" id="demoGroup" style="width:230px"></select>
+      </div>
+      <div class="tb-sep"></div>
+      <div class="tb-group">
+        <label class="vlab">排布</label>
+        <select class="sel-mini" id="demoCols" style="width:96px">
+          <option value="4">2 × 2（4 幕）</option>
+          <option value="6">2 × 3（6 幕）</option>
+          <option value="12">全览（12 幕）</option>
+        </select>
+      </div>
+      <div class="tb-sep"></div>
+      <div class="tb-group">
+        <button class="tbtn" id="dbPlay">⏸ 暂停</button>
+        <button class="tbtn" id="dbStep">单步</button>
+      </div>
+      <div class="tb-sep"></div>
+      <div class="tb-group">
+        <label class="vlab">速度</label>
+        <input type="range" id="dbSpeed" min="0.2" max="2" step="0.1" value="1" style="width:80px">
+        <span class="fval" id="dbSpeedVal">1.0×</span>
+      </div>
+      <div class="tb-sep"></div>
+      <div class="tb-group">
+        <button class="tbtn" id="dbAllAuto" title="把全部幕恢复成自动演示">↺ 全部自动</button>
+        <button class="tbtn" id="dbSide" title="显示/隐藏右侧讲解栏">◧ 讲解栏</button>
+      </div>
+      <div class="tb-grow"></div>
+      <div class="tb-group"><span class="vp-note" id="demoProgress">第 1 版 / 共 3 版</span></div>
+    </div>
+
+    <!-- ---- 工具条 ③：前视声呐成像 ---- -->
+    <div class="toolbar hide" id="barImage">
+      <div class="tb-group">
+        <label class="vlab">显示量</label>
+        <select id="sonarView" class="sel-mini" title="显示量">
+          <option value="amp">波束幅值</option>
+          <option value="snr">信噪比 SNR</option>
+          <option value="ei">回波强度 EI</option>
+        </select>
+        <!-- 色标只保留视图栏里那一个（与动态范围、窗偏移同组），此处不再重复 -->
+      </div>
+      <div class="tb-sep"></div>
+      <div class="tb-group">
+        <button class="tbtn" data-act="freeze" title="冻结当前帧">冻结</button>
+        <button class="tbtn" data-act="saveframe" title="保存单帧 PNG">存帧</button>
+        <button class="tbtn" data-act="cursor" title="测距光标">光标</button>
+        <button class="tbtn" data-act="exp-png">导出 PNG</button>
+      </div>
+      <!-- V2.1：「接收阵元 / 曲线 / 预处理后」这三个选择跟随信号窗口一起下移，
+           放进「阵元级信号观测」板块自己的标题条上（见 #sigCell .sig-bar）。 -->
+    </div>
+
+    <!-- ---- 舞台：三个视图面板叠放，按切换显示其一 ---- -->
+    <div class="stage" id="stage">
+
+      <!-- ========== 视图 ①：三维场景设置 ========== -->
+      <div class="view-pane" id="paneScene">
+        <!-- V2.1：四个板块已上移到工具条下方的「场景面板」条，此处只剩三维视口，
+             幅面比 V2.0 多出原来 250 px 抽屉 + 6 px 间隙的全部宽度。 -->
+        <div class="scene-row">
+          <div id="view3d" class="viewport">
+            <div class="vp-title">
+              <span>三维场景视口（地形编辑 / 目标放置 / 航路规划）</span>
+              <span class="vp-note">左键旋转 / 右键平移 / 滚轮缩放</span>
+            </div>
+            <div class="canvas-host" id="host3d">
+              <div id="depthLegend">
+                <div class="dl-cap" id="dlTop">--</div>
+                <div class="dl-bar" id="dlBar"></div>
+                <div class="dl-cap" id="dlBot">--</div>
+                <div class="dl-cap">深度 m</div>
+                <div class="dl-cap" id="dlDelta">Δ--</div>
+              </div>
+            </div>
+            <div class="vp-hud" id="hud3d"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========== 视图 ②：原理演示 ==========
+           ★ V3.7 改版：原来是「一幕占满中间面板 + 右侧文字」，
+             幕与幕之间只能来回切，看不出彼此的联系，也不方便对照。
+             改成**宫格式演示台**：一版同时摆 4（或 6 / 12）幅，
+             每幅有自己的画布、自己的动画、自己的参数滑块，
+             点一下选中、右侧文字面板给出这一幅的完整讲解与公式。 -->
+      <div class="view-pane off" id="paneDemo">
+        <div class="demo-row">
+          <div class="demo-main">
+            <div class="demo-grid" id="demoGrid"></div>
+          </div>
+          <div class="demo-side scroll" id="demoSide">
+            <div class="demo-hd" id="demoTitle">前视声呐基本原理</div>
+            <div class="demo-bd" id="demoText"></div>
+            <div class="demo-fml" id="demoFormula"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========== 视图 ③：前视声呐成像 ==========
+           V2.1 版式：
+             上排  左 = 三维场景视口（跟随 ROV）／ 右 = 扇形成像主图
+                   —— 两者同属一行，因此**高度天然相等**（扇图上提、三维视口加高）
+             下排  阵元级信号观测，宽度 = 上排总宽（三维视口 + 扇图），高度约为上排的 1/3
+                   —— 加宽后多条曲线不再挤在一起 -->
+      <div class="view-pane off" id="paneImage">
+        <div class="img-wrap">
+          <div class="img-top">
+            <!-- V3.0：mini 三维视口下方加了「驾控台」—— 姿态仪 + 航向罗盘 + 操控按键说明。
+                 详见 js/85-cockpit.js。它解决两个老问题：
+                   ① 驾驶 ROV 时，姿态与航向只在右栏指标里以"数字三连"给出
+                      （如 12°/−3°/0°），新车手看不出"现在是不是歪的"；
+                   ② 新用户根本不知道 ROV 能用键盘开 —— 以前只在帮助弹窗里提一句。 -->
+            <!-- ★ V3.2 版式（用户指定）：
+                 ① 三维视口移到这一列的**最上面**，并加宽 25%（30% → 37.5%）；
+                 ② 姿态仪 / 航向罗盘移到视口正下方，两者等宽（各占一半）——
+                    旧版把两个表盘挤在 74 px 的固定尺寸里，加上左侧 30% 的窄列，
+                    地平线刻度和罗盘方位字几乎看不清；
+                 ③ 「ROV 操控（键盘）」单独一行、通栏，与三维视口同宽 ——
+                    键帽说明原来只有约 205 px 宽，三组四行挤在一起勉强能读。 -->
+            <div class="img-cell img-cell-3d">
+              <div class="img-cap">三维场景视口（跟随 ROV 运动）</div>
+              <div class="canvas-host" id="host3dMini"></div>
+              <!-- ★ V3.5：虚拟水下摄像头视口。
+                   装在声呐同一位置、同一安装俯仰角，矩形视场，仅用于与右侧
+                   声呐扇形成像做视觉比照，不参与任何成像计算。
+                   详见 js/61-camview.js。 -->
+              <div class="img-cap cam-cap">
+                <span>虚拟摄像头视口（装在声呐处 · 仅供视觉比照，不参与成像）</span>
+                <span class="cam-fov" id="camFovTag">--</span>
+              </div>
+              <div class="canvas-host cam-host" id="hostCam"></div>
+              <!-- ★ V3.5：表盘与键帽说明合到同一行（旧版各占一整行）。
+                   加进摄像头视口后这一列的纵向空间不够同时装三行，
+                   而键帽说明本来只有约 205 px 宽、经常读不全 ——
+                   横排之后它拿到的是表盘让出来的 200~350 px，反而更宽。 -->
+              <div class="ck-bottom">
+                <div class="ck-gauges" id="cockpit">
+                  <div class="ck-inst">
+                    <canvas id="adiCanvas" width="150" height="150" title="姿态仪：地平线相对机体的倾斜（横滚）与高低（俯仰）"></canvas>
+                    <div class="ck-cap"><span>俯仰</span><b id="ckPitch">0.0°</b></div>
+                  </div>
+                  <div class="ck-inst">
+                    <canvas id="hsiCanvas" width="150" height="150" title="航向罗盘：机艏所指的方位角"></canvas>
+                    <div class="ck-cap"><span>航向</span><b id="ckHdg">0.0°</b></div>
+                  </div>
+                </div>
+                <div class="ck-keys">
+                  <div class="ck-keys-hd">ROV 操控（键盘）</div>
+                  <div class="ck-keygrid" id="ckKeyGrid"></div>
+                </div>
+              </div>
+            </div>
+            <div id="viewSonar" class="viewport">
+              <div class="vp-title">
+                <span>前视声呐扇形成像（信号处理输出）</span>
+                <span class="vp-note" id="sonarFrameTag">帧 --</span>
+              </div>
+              <div class="canvas-host" id="hostSonar">
+                <canvas id="sonarCanvas"></canvas>
+                <canvas id="sonarOverlay"></canvas>
+              </div>
+              <div class="vp-hud" id="hudSonar"></div>
+            </div>
+          </div>
+          <div class="img-cell img-cell-sig" id="sigCell">
+            <!-- V2.1：阵元 / 曲线 / 预处理这三个选择回到信号板块自己的标题条上 -->
+            <div class="sig-bar">
+              <span class="img-cap sig-cap">阵元级信号观测</span>
+              <span class="tb-grow"></span>
+              <label class="vlab">接收阵元</label>
+              <select id="chanSel" class="sel-mini"></select>
+              <!-- ★ V3.4：观测点。它决定"波形纵坐标是什么量"，也决定
+                   接收灵敏度 / 前置放大增益这两个参数在波形上**看不看得见**：
+                     hydro  水听器输出（折合到输入端的声压，μPa）—— 灵敏度与增益
+                            **不改变**它（这是物理事实：两者同时缩放信号与声学噪声，
+                            不改声学信噪比），它们只改噪底的通道项与量化项；
+                     preamp 前置放大输出（mV）—— 灵敏度与增益直接乘上去，
+                            动 1 dB 波形就抬 1 dB，这是示波器探头接在放大器后面看到的量；
+                     adc    ADC 码值（LSB）—— 在 preamp 基础上除以满量程，
+                            并按采样位数做真量化（8 bit 时能看见台阶）。 -->
+              <label class="vlab">观测点</label>
+              <select id="sigProbe" class="sel-mini">
+                <option value="preamp">前置放大输出 mV</option>
+                <option value="hydro">水听器输出 μPa</option>
+                <option value="adc">ADC 码值 LSB</option>
+              </select>
+              <label class="vlab">曲线</label>
+              <select id="sigType" class="sel-mini">
+                <option value="rf">重建带通波形</option>
+                <option value="env">复包络 I/Q</option>
+                <option value="spec">功率谱</option>
+                <option value="beam">波束输出时域</option>
+                <option value="bfan">波束方向图（当前距离）</option>
+              </select>
+              <label class="chk-inline"><input type="checkbox" id="sigPrePost"><span>预处理后</span></label>
+              <!-- ★ V3.7：横轴框选放大后的复位按钮（双击画布同效） -->
+              <button class="tbtn" id="sigZoomReset" title="复位横轴到全量程（双击画布同效）">⤢ 复位</button>
+              <button class="tbtn" data-act="exp-csv-sig" title="导出当前阵元时域信号 CSV">导出 CSV</button>
+            </div>
+            <div class="sig-wrap"><canvas id="sigCanvas"></canvas></div>
+            <div class="sig-info" id="sigInfo">--</div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /#stage -->
+  </div>
+
+  </div><!-- /#workarea -->
+
+  <!-- ========== 底：仿真控制台（V3.0：由右栏移回底部，并压成一长条） ==========
+       V2.0 曾把控制台从底部移到右栏，当时是为了让"运行控制 + 指标 + 日志"三块都有
+       足够的竖向空间。代价是中栏被挤掉 342 px 宽度 —— 而这 342 px 恰恰是三维视口
+       与扇形成像图最缺的东西：扇图是极坐标展开，宽度直接决定横向分辨力。
+
+       V3.0 反过来做：控制台回到底部、压成一条约 96 px 高的横条，
+       三个区块（运行控制 / 运行参数 / 实时指标）改为横向排列：
+         ① 中栏拿回 342 px 全宽 —— 这正是"前视声呐成像这个板块图太小"的解法；
+         ② 横向一长条反而更好读：指标不再需要上下滚动，一眼扫过去就够；
+         ③ 仿真日志是"事后翻查"型内容，平时不看，故从控制台里拆出来做成按钮，
+            点击才弹便签纸 —— 不再常年占着一块地方。 -->
+  <aside id="bottomConsole">
+    <!-- 区一：运行控制 -->
+    <div class="bc-zone bc-run">
+      <button id="btnStart" class="btn primary">启动仿真</button>
+      <button id="btnPause" class="btn">暂停</button>
+      <button id="btnStep" class="btn">单步</button>
+      <button id="btnReset" class="btn">重置</button>
+    </div>
+    <div class="bc-sep"></div>
+    <!-- 区二：运行参数 -->
+    <div class="bc-zone bc-par">
+      <label>模式<select id="simMode" class="sel-mini">
+        <option value="continuous">连续实时</option>
+        <option value="step">单步（一脉冲一帧）</option>
+      </select></label>
+      <label>精度档<select id="quality" class="sel-mini">
+        <option value="high">高精度</option>
+        <option value="balanced" selected>平衡</option>
+        <option value="fast">快速预览</option>
+      </select></label>
+      <label>时间加速<select id="prfScale" class="sel-mini">
+        <option value="1">1×</option><option value="0.5">0.5×</option>
+        <option value="0.2">0.2×</option><option value="0.1">0.1×</option>
+      </select></label>
+    </div>
+    <div class="bc-sep"></div>
+    <!-- 区三：实时指标（横向排布，超出可左右滚动） -->
+    <div class="bc-zone bc-stat">
+      <div class="con-metrics" id="metrics"></div>
+    </div>
+    <div class="bc-grow"></div>
+    <!-- 区四：状态与日志入口 -->
+    <div class="bc-zone bc-tail">
+      <span id="consoleState" class="tag">待启动</span>
+      <button id="btnLog" class="btn-mini" title="打开仿真日志便签（可拖动、点空白处或按 Esc 关闭）">📋 仿真日志</button>
+    </div>
+  </aside>
+
+  <!-- 底部版权条（V2.0：控制台移走后仅留一行标注） -->
+  <div id="statusbar">
+    <span id="corner">时域信号级仿真平台，仅供科研仿真</span>
+    <span class="sb-grow"></span>
+    <span class="sb-tip">空格：暂停/继续　Shift+R：重置　B：笔刷</span>
+  </div>
+</main>
+
+<!-- ========== 仿真日志便签（V3.0：默认收起，点底部「📋 仿真日志」弹出） ==========
+     便签做成可拖动的浮层而不是固定面板：它只在"出问题了要翻记录"时才需要，
+     常驻会白白吃掉一块版面（而且大部分时间里是一块空白）。 -->
+<div id="logNote" class="hide">
+  <div class="ln-hd" id="lnHd">
+    <span class="ln-title">📋 仿真日志</span>
+    <span class="ln-grab" title="按住此处拖动便签">⋮⋮</span>
+    <button class="btn-mini" data-act="clearlog">清空</button>
+    <button class="btn-mini" id="logClose" title="关闭（Esc）">×</button>
+  </div>
+  <div class="log-win scroll" id="logWin"></div>
+</div>
+
+<!-- 悬浮帮助提示 -->
+<div id="tooltip" class="hide"></div>
+<!-- 通用弹窗 -->
+<div id="modalMask" class="hide">
+  <div id="modalBox">
+    <div id="modalHd"><span id="modalTitle">提示</span><button id="modalClose">×</button></div>
+    <div id="modalBd"></div>
+    <div id="modalFt"></div>
+  </div>
+</div>
+<input type="file" id="fileInput" class="hide" accept=".json,.txt,.csv,.xyz">
+
+<script src="vendor/three.min.js"></script>
+<script src="js/01-core.js"></script>
+<script src="js/10-signal.js"></script>
+<script src="js/20-env.js"></script>
+<script src="js/30-scatter.js"></script>
+<script src="js/40-engine.js"></script>
+<script src="js/50-imaging.js"></script>
+<script src="js/60-scene3d.js"></script>
+<script src="js/61-camview.js"></script>
+<script src="js/70-rov.js"></script>
+<script src="js/85-demo.js"></script>
+<script src="js/85-cockpit.js"></script>
+<script src="js/86-lognote.js"></script>
+<script src="js/80-ui.js"></script>
+<script src="js/99-app.js"></script>
+</body>
+</html>

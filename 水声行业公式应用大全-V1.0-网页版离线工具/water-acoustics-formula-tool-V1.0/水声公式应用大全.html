@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="离线可用的水声行业公式、参数、单位换算与专业图表工具。">
+  <meta name="color-scheme" content="light dark">
+  <title>水声行业公式应用大全（老海出手必是精品，更多工具关注海疆智造公众号抖音号）</title>
+  <!-- KaTeX 及字体已随项目本地打包，断网也能渲染公式。 -->
+  <link rel="stylesheet" href="vendor/katex/katex.min.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-theme="light">
+  <a class="skip-link" href="#mainContent">跳到主内容</a>
+
+  <header class="topbar">
+    <div class="brand" aria-label="水声行业公式应用大全">
+      <span class="brand-mark" aria-hidden="true">∿</span>
+      <div class="brand-text">
+        <strong class="brand-title">水声行业公式应用大全<span class="brand-slogan">（老海出手必是精品，更多工具关注海疆智造公众号抖音号）</span></strong>
+        <small>Hydroacoustics Formula Workbench · 离线版 V1.0</small>
+      </div>
+    </div>
+
+    <label class="global-search" for="globalSearch">
+      <span aria-hidden="true">⌕</span>
+      <input id="globalSearch" type="search" autocomplete="off" placeholder="搜索公式、物理量、英文名或关键词…" aria-label="全文搜索">
+      <kbd>Ctrl K</kbd>
+    </label>
+
+    <div class="top-actions">
+      <span class="offline-badge" title="所有计算均在浏览器本地完成">离线可用</span>
+      <button id="runSelfTestBtn" class="icon-btn" type="button" title="运行公式自检">自检</button>
+      <button id="themeBtn" class="icon-btn" type="button" title="切换深浅主题" aria-label="切换深浅主题">☾</button>
+      <button id="mobileNavBtn" class="icon-btn mobile-only" type="button" aria-label="展开导航">目录</button>
+    </div>
+  </header>
+
+  <div class="app-shell">
+    <aside id="leftSidebar" class="sidebar left-sidebar" aria-label="功能与知识目录">
+      <nav class="primary-nav" aria-label="主要功能">
+        <button class="nav-item active" data-view="knowledge" type="button"><span>▤</span>知识库</button>
+        <button class="nav-item" data-view="calculator" type="button"><span>ƒ</span>公式计算</button>
+        <button class="nav-item" data-view="converter" type="button"><span>⇄</span>单位换算</button>
+        <button class="nav-item" data-view="charts" type="button"><span>⌁</span>专业图表</button>
+        <button class="nav-item" data-view="constants" type="button"><span>κ</span>常数库</button>
+        <button class="nav-item" data-view="glossary" type="button"><span>中</span>术语辨析</button>
+        <button class="nav-item" data-view="notes" type="button"><span>✎</span>工程备忘录</button>
+        <button class="nav-item" data-view="help" type="button"><span>?</span>帮助与参考</button>
+      </nav>
+
+      <section class="sidebar-section">
+        <div class="section-heading">
+          <span>知识分类</span>
+          <button id="collapseAllBtn" class="text-btn" type="button">折叠</button>
+        </div>
+        <div id="categoryTree" class="category-tree"></div>
+      </section>
+
+      <section class="sidebar-section compact-section">
+        <div class="section-heading"><span>我的常用</span></div>
+        <button id="favoritesFilterBtn" class="sidebar-stat" type="button">
+          <span>收藏公式</span><strong id="favoriteCount">0</strong>
+        </button>
+        <button id="historyViewBtn" class="sidebar-stat" type="button">
+          <span>计算记录</span><strong id="historyCount">0</strong>
+        </button>
+      </section>
+    </aside>
+
+    <main id="mainContent" class="main-content" tabindex="-1">
+      <div id="viewHeader" class="view-header"></div>
+      <div id="alertArea" class="alert-area" aria-live="polite"></div>
+      <div id="contentArea"></div>
+    </main>
+
+    <aside id="rightPanel" class="right-panel" aria-label="计算与图表预览">
+      <div class="panel-header">
+        <div>
+          <span class="eyebrow">工作面板</span>
+          <h2 id="rightPanelTitle">快速计算</h2>
+        </div>
+        <button id="closeRightPanelBtn" class="icon-btn mobile-only" type="button" aria-label="关闭面板">×</button>
+      </div>
+      <div id="rightPanelBody" class="right-panel-body"></div>
+    </aside>
+  </div>
+
+  <div id="mobileScrim" class="scrim" hidden></div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <!-- 本地脚本必须按顺序加载；不用 ES module，确保 file:// 双击运行。 -->
+  <script src="vendor/katex/katex.min.js"></script>
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,887 @@
+/* ==========================================================
+   前视声呐时域信号级仿真系统  ——  工业软件风格样式（V1.1）
+   · 全部颜色走 CSS 变量，支持「浅色 / 深色」双主题
+   · 主题由 <html data-theme="light|dark"> 切换，见 js/01-core.js FLS.Theme
+   ========================================================== */
+
+/* ---------------- 浅色主题（默认） ---------------- */
+:root{
+  --bg:#eef1f5;
+  --panel:#ffffff;
+  --panel2:#f7f9fc;
+  --panel3:#eef2f7;
+  --line:#c9d2de;
+  --line2:#dde3ec;
+  --txt:#1c2530;
+  --txt2:#5a6879;
+  --txt3:#8794a4;
+  --acc:#1f6feb;
+  --acc2:#0d4fa8;
+  --accSoft:#eaf2ff;
+  --sel:#dceaff;
+  --hover:#f6f9fd;
+  --warn:#c2410c;
+  --ok:#0f7b3f;
+  --hd:#33465a;
+  --hd2:#26333f;
+  --hdTxt:#eaf0f7;
+  --hdTxt2:#9fb3c8;
+  --hdHover:#3d5266;
+  --tagBg:#41556b;
+  --tagTxt:#dbe6f2;
+  --menuBg:#ffffff;
+  --slogan:#ffb020;
+  --sloganShadow:0 1px 2px rgba(0,0,0,.45),0 0 8px rgba(255,176,32,.28);
+  --scrollThumb:#b9c3d0;
+  --scrollThumbHover:#93a1b3;
+  --scrollTrack:#f0f3f7;
+  --vpBg:#0f1620;
+  --vpTitle1:#3a4c5f;
+  --vpTitle2:#2a3846;
+  --vpTitleTxt:#dbe6f2;
+  --vpNote:#93a6bb;
+  --hudBg:rgba(8,14,22,.55);
+  --hudTxt:#9fd7ff;
+  --cbLabTxt:#cfe0f2;
+  --cbBorder:#5c6b7c;
+  --logBg:#101820;
+  --logTxt:#b9d3ea;
+  --logInfo:#9fc4e0;
+  --logWarn:#ffc36b;
+  --logErr:#ff8f8f;
+  --logOk:#8fe0a8;
+  --plotBg:#fbfcfe;
+  --plotBorder:#d7dfe9;
+  --plotGrid:#eef2f7;
+  --plotAxis:#5a6879;
+  --plotTxt:#33414f;
+  --inputBg:#ffffff;
+  --helpqBg:#dbe3ee;
+  --helpqTxt:#5d6c7d;
+  --errBg:#fff1f4;
+  --errLine:#e11d48;
+  --modalHd1:#3a4c5f;
+  --modalHd2:#2a3846;
+  --modalHdTxt:#eaf2fa;
+  --tooltipBg:#253243;
+  --tooltipTxt:#eaf2fa;
+  --cornerTxt:#7c8a9b;
+  --mono:"Consolas","SFMono-Regular","Menlo","Courier New",monospace;
+}
+
+/* ---------------- 深色主题 ---------------- */
+html[data-theme="dark"]{
+  --bg:#111720;
+  --panel:#1a222c;
+  --panel2:#202936;
+  --panel3:#26303e;
+  --line:#394654;
+  --line2:#2c3644;
+  --txt:#dbe4ef;
+  --txt2:#94a5b8;
+  --txt3:#7d8ea1;
+  --acc:#4d9bff;
+  --acc2:#9cc9ff;
+  --accSoft:#1d3350;
+  --sel:#24405f;
+  --hover:#232d3a;
+  --warn:#ff9d4d;
+  --ok:#5fd08a;
+  --hd:#1c2632;
+  --hd2:#131a22;
+  --hdTxt:#e6eef8;
+  --hdTxt2:#8ba0b8;
+  --hdHover:#26323f;
+  --tagBg:#263444;
+  --tagTxt:#b9cbe0;
+  --menuBg:#1f2833;
+  --slogan:#ffb020;
+  --sloganShadow:0 1px 3px rgba(0,0,0,.7),0 0 10px rgba(255,176,32,.25);
+  --scrollThumb:#3a4757;
+  --scrollThumbHover:#4c5c70;
+  --scrollTrack:#161d26;
+  --vpBg:#0a1017;
+  --vpTitle1:#1e2a37;
+  --vpTitle2:#161f29;
+  --vpTitleTxt:#c8d8ea;
+  --vpNote:#7e93a9;
+  --hudBg:rgba(6,11,17,.66);
+  --hudTxt:#9fd7ff;
+  --cbLabTxt:#b7cadd;
+  --cbBorder:#4a5867;
+  --logBg:#0b1119;
+  --logTxt:#a8c4dc;
+  --logInfo:#90b8d8;
+  --logWarn:#ffc36b;
+  --logErr:#ff9e9e;
+  --logOk:#7fd9a0;
+  --plotBg:#151d27;
+  --plotBorder:#33404f;
+  --plotGrid:#222d3a;
+  --plotAxis:#8798ab;
+  --plotTxt:#cbd7e5;
+  --inputBg:#151d27;
+  --helpqBg:#2e3a49;
+  --helpqTxt:#9db0c6;
+  --errBg:#3a1a24;
+  --errLine:#ff6b81;
+  --modalHd1:#1e2a37;
+  --modalHd2:#161f29;
+  --modalHdTxt:#dce8f5;
+  --tooltipBg:#0e1620;
+  --tooltipTxt:#dbe6f2;
+  --cornerTxt:#5f6f82;
+}
+
+*{box-sizing:border-box;}
+html,body{height:100%;margin:0;}
+body{
+  background:var(--bg);color:var(--txt);
+  font-family:"Microsoft YaHei","PingFang SC","Segoe UI",system-ui,sans-serif;
+  font-size:12px;overflow:hidden;
+}
+.hide{display:none !important;}
+.scroll{overflow:auto;}
+::-webkit-scrollbar{width:9px;height:9px;}
+::-webkit-scrollbar-thumb{background:var(--scrollThumb);border-radius:5px;}
+::-webkit-scrollbar-thumb:hover{background:var(--scrollThumbHover);}
+::-webkit-scrollbar-track{background:var(--scrollTrack);}
+
+/* ---------------- 顶部栏 ---------------- */
+#topbar{
+  height:38px;display:flex;align-items:center;gap:12px;padding:0 10px;
+  background:linear-gradient(var(--hd),var(--hd2));color:var(--hdTxt);flex:0 0 auto;
+  border-bottom:1px solid var(--line2);
+}
+.brand{display:flex;align-items:baseline;gap:8px;}
+.brand-title{font-size:14px;font-weight:700;letter-spacing:.5px;}
+.brand-sub{font-size:10px;color:var(--hdTxt2);font-family:var(--mono);}
+#menubar{display:flex;align-items:center;gap:2px;height:100%;}
+.menu-root{position:relative;height:100%;display:flex;align-items:center;}
+.menu-title{padding:0 10px;height:100%;display:flex;align-items:center;cursor:pointer;font-size:12px;}
+.menu-root:hover{background:var(--hdHover);}
+.menu-drop{
+  display:none;position:absolute;top:100%;left:0;background:var(--menuBg);color:var(--txt);
+  border:1px solid var(--line);box-shadow:0 6px 18px rgba(0,0,0,.28);min-width:210px;z-index:400;padding:3px 0;
+}
+.menu-root.open .menu-drop{display:block;}
+.menu-item{padding:6px 14px;cursor:pointer;white-space:nowrap;font-size:12px;}
+.menu-item:hover{background:var(--acc);color:#fff;}
+.menu-item.chk::before{content:"☐ ";font-family:var(--mono);}
+.menu-item.chk.on::before{content:"☑ ";}
+.menu-sep{height:1px;background:var(--line2);margin:3px 0;}
+.brand-right{display:flex;gap:6px;align-items:center;}
+.tag{font-family:var(--mono);font-size:10px;background:var(--tagBg);color:var(--tagTxt);padding:2px 7px;border-radius:3px;}
+/* V2.2：此处原为 `#langBtn,#themeBtn{margin-left:6px;}`，其中 #langBtn 是顶栏中英切换按钮，
+   该按钮连同整套双语功能已删除，故只保留 #themeBtn（主题切换）。 */
+#themeBtn{margin-left:6px;}
+/* 品牌标语：黄橙色，深色标题栏上高对比 */
+.brand-slogan{
+  flex:1 1 auto;min-width:0;margin-left:10px;text-align:center;
+  font-size:13px;font-weight:700;letter-spacing:.4px;white-space:nowrap;
+  overflow:hidden;text-overflow:ellipsis;
+  color:var(--slogan);text-shadow:var(--sloganShadow);
+}
+
+/* ---------------- 主体布局（V2.0 三栏重构） ----------------
+   纵向三段：① 顶部菜单栏  ② 工作区（左七页参数 / 中三视图 / 右仿真控制台）
+            ③ 底部状态条（仅一行版权与快捷键提示）
+   ⚠ V2.0：仿真控制台由「底部横跨整宽」移到最右侧一栏；
+     「仿真参数总控面板」取消，其参数拆进左侧七页中的后五页。 */
+#layout{
+  display:flex;flex-direction:column;height:calc(100% - 38px);gap:6px;padding:6px;
+}
+#workarea{flex:1 1 auto;display:flex;gap:6px;min-height:0;}
+#leftPanels{width:312px;flex:0 0 312px;display:flex;flex-direction:column;gap:6px;min-height:0;}
+#center{flex:1 1 auto;display:flex;flex-direction:column;gap:6px;min-width:0;min-height:0;}
+/* V3.0：#rightPanels 整列撤除（仿真控制台已移到底部横条，见 #bottomConsole）。
+   中栏因此多出原来 342 px + 6 px 间隙的全部宽度 —— 三维视口与扇形成像图
+   直接受益，这正是「前视声呐成像这个板块图太小」的解法。 */
+
+/* ---------------- 面板通用 ---------------- */
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:3px;display:flex;flex-direction:column;min-height:0;}
+.panel.grow{flex:1 1 auto;}
+.panel.grow2{flex:1 1 auto;}
+.panel-hd{
+  height:26px;flex:0 0 26px;display:flex;align-items:center;gap:6px;padding:0 8px;
+  background:linear-gradient(var(--panel3),var(--panel2));border-bottom:1px solid var(--line);
+  font-weight:600;color:var(--txt);cursor:pointer;user-select:none;
+}
+.panel-hd .caret{color:var(--txt3);font-size:10px;width:10px;}
+.panel-hd.collapsed .caret{transform:rotate(-90deg);}
+.panel-hd .hd-right{margin-left:auto;display:flex;align-items:center;gap:5px;font-weight:400;color:var(--txt2);cursor:default;}
+.panel-bd{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;}
+.panel-bd.collapsed{display:none;}
+.empty-hint{padding:14px;color:var(--txt2);font-size:11px;line-height:1.7;}
+
+/* ---------------- 子标签（subtabs） ---------------- */
+.subtabs{display:flex;gap:0;flex:0 0 auto;background:var(--panel3);border-bottom:1px solid var(--line);}
+.subtab{
+  flex:1 1 auto;background:transparent;border:0;border-right:1px solid var(--line2);
+  padding:5px 1px;font-size:11px;cursor:pointer;color:var(--txt2);font-family:inherit;
+  /* V1.3：子标签增加到 5 个（含「航路规划」），必须禁止换行，
+     否则「地形编辑 / 航路规划」会被拆成「地形编 / 辑」这种断词。 */
+  white-space:nowrap;letter-spacing:-0.3px;
+}
+.subtab:hover{background:var(--hover);}
+.subtab.on{background:var(--panel);color:var(--acc2);font-weight:700;box-shadow:inset 0 -2px 0 var(--acc);}
+.stab-body{padding:6px;overflow:auto;flex:1 1 auto;min-height:0;}
+.hint{color:var(--txt2);font-size:10.5px;line-height:1.6;padding:2px 2px 6px;}
+.boolrow{display:flex;align-items:center;gap:6px;padding:2px 2px 6px;font-size:11px;}
+.boolrow select{flex:1 1 auto;}
+.boolrow input[type=number]{flex:1 1 auto;min-width:0;}
+/* ---------------- 资源库网格 ---------------- */
+.lib-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px;}
+.lib-item{
+  border:1px solid var(--line);border-radius:3px;background:var(--panel2);padding:5px;cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;gap:3px;text-align:center;
+}
+.lib-item:hover{border-color:var(--acc);background:var(--accSoft);}
+.lib-item svg{width:44px;height:32px;}
+.lib-cap{font-size:10.5px;line-height:1.25;color:var(--txt);}
+
+/* ---------------- 实例列表 ---------------- */
+.inst-list{display:flex;flex-direction:column;gap:2px;}
+.inst-row{
+  display:flex;align-items:center;gap:5px;padding:3px 5px;border:1px solid transparent;border-radius:3px;
+  background:var(--panel2);cursor:pointer;font-size:11px;color:var(--txt);
+}
+.inst-row:hover{background:var(--accSoft);border-color:var(--acc);}
+.inst-row.sel{background:var(--sel);border-color:var(--acc);font-weight:600;}
+.inst-row .nm{flex:1 1 auto;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.inst-row .mini{
+  border:1px solid var(--line);background:var(--inputBg);border-radius:2px;width:19px;height:17px;line-height:14px;
+  text-align:center;cursor:pointer;font-size:10px;padding:0;color:var(--txt2);font-family:inherit;
+}
+.inst-row .mini:hover{background:var(--acc);color:#fff;}
+.inst-row .mini.act{background:var(--sel);color:var(--acc2);}
+.inst-row.off .nm{opacity:.45;text-decoration:line-through;}
+/* ★ V3.1：地形行尾的「待确认 / 已融入」徽标。
+   两种状态在三维里都看得见起伏，光看画面分不清有没有生效，必须用文字标出来。
+   配色：待确认 = 琥珀（"还要动"），已融入 = 青绿（"已成图"）。 */
+.tg-badge{
+  flex:0 0 auto;font-size:9.5px;line-height:14px;padding:0 4px;border-radius:2px;
+  border:1px solid;font-weight:600;letter-spacing:.2px;
+}
+.tg-badge.pend{color:#92400e;border-color:#f0b45e;background:#fdf3e0;}
+.tg-badge.merged{color:#0b6b63;border-color:#7fcfc4;background:#e3f6f3;}
+/* ★ V3.1：地形属性面板底部的「确认 / 放弃」区。
+   确认键要显眼（它是把预览变成真海底的唯一入口），故单独做一条 .btn-ok。 */
+.tg-confirm{
+  margin:4px 6px 7px;padding:6px 7px;border:1px solid var(--line2);border-radius:3px;background:var(--panel2);
+}
+.tg-confirm.pending{border-color:#f0b45e;background:#fdf8ee;}
+.tg-confirm .hint{padding:0 0 5px;}
+.tg-crow{display:flex;gap:6px;}
+.tg-crow .btn-ok{flex:1 1 auto;}
+.tg-crow .btn-mini{flex:0 0 auto;}
+.btn-ok{
+  border:1px solid #1d7f5f;background:#1d7f5f;color:#fff;border-radius:3px;
+  padding:4px 8px;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;
+}
+.btn-ok:hover{background:#16674d;border-color:#16674d;}
+.hint.warn-hint{color:#92400e;}
+
+/* ---------------- 参数表 ---------------- */
+.param-scroll{padding:6px 8px 12px;}
+.pgroup{margin-bottom:8px;border:1px solid var(--line2);border-radius:3px;overflow:hidden;}
+.pgroup-hd{
+  background:var(--panel3);padding:4px 8px;font-weight:700;font-size:11px;color:var(--txt);
+  border-bottom:1px solid var(--line2);display:flex;align-items:center;gap:6px;
+}
+.pgroup-hd .gh-tip{margin-left:auto;font-weight:400;color:var(--txt2);font-size:10px;}
+.prow{display:flex;align-items:center;gap:5px;padding:3px 8px;border-bottom:1px solid var(--line2);}
+.prow:last-child{border-bottom:0;}
+.prow:hover{background:var(--hover);}
+.plab{flex:0 0 132px;color:var(--txt);font-size:11px;line-height:1.3;}
+.punit{flex:0 0 44px;color:var(--txt3);font-size:10px;font-family:var(--mono);}
+/* ★ V3.6：没有单位的行（下拉框 / 复选框 / 无单位数字框）原本也占着 44 px 的空列，
+   把控件挤到 69 px —— 实测「波束形成算法」下拉只剩"CBF ?"半截字。
+   空的单位列直接不占位，控件可用宽度 69 → 117 px。 */
+.punit:empty{display:none;}
+.pctl{flex:1 1 auto;display:flex;align-items:center;gap:4px;min-width:0;}
+.pctl input[type=number],.pctl input[type=text],.pctl select{
+  width:100%;min-width:0;border:1px solid var(--line);border-radius:2px;padding:2px 4px;
+  font-size:11px;font-family:var(--mono);background:var(--inputBg);color:var(--txt);
+}
+.pctl input:focus,.pctl select:focus{outline:1px solid var(--acc);border-color:var(--acc);}
+.pctl input[type=range]{flex:1 1 auto;min-width:0;accent-color:var(--acc);}
+.pctl input[type=checkbox]{accent-color:var(--acc);}
+.pctl .rv{flex:0 0 54px;font-family:var(--mono);font-size:10.5px;color:var(--acc2);text-align:right;}
+.helpq{
+  flex:0 0 14px;width:14px;height:14px;border-radius:50%;background:var(--helpqBg);color:var(--helpqTxt);
+  font-size:9px;line-height:14px;text-align:center;cursor:help;font-weight:700;
+}
+.helpq:hover{background:var(--acc);color:#fff;}
+.prow.err input{border-color:var(--errLine);background:var(--errBg);}
+.pctl .btn-mini{flex:0 0 auto;}
+
+/* ---------------- 视口 ----------------
+   V2.0：三维视口与扇形成像视口不再并排（#splitWrap / #splitter 已撤），
+   分别在「三维场景设置」与「前视声呐成像」两个视图里独占画面。 */
+.viewport{
+  flex:1 1 auto;min-width:120px;min-height:0;background:var(--vpBg);border:1px solid var(--line);border-radius:3px;
+  display:flex;flex-direction:column;position:relative;overflow:hidden;
+}
+.vp-title{
+  flex:0 0 22px;display:flex;align-items:center;gap:8px;padding:0 8px;
+  background:linear-gradient(var(--vpTitle1),var(--vpTitle2));color:var(--vpTitleTxt);font-size:11px;font-weight:600;
+}
+.vp-note{font-weight:400;color:var(--vpNote);font-size:10px;font-family:var(--mono);}
+.canvas-host{flex:1 1 auto;position:relative;min-height:0;overflow:hidden;}
+#host3d canvas{display:block;}
+#sonarCanvas,#sonarOverlay{position:absolute;left:0;top:0;width:100%;height:100%;}
+#sonarOverlay{pointer-events:none;}
+#sonarOverlay.on{pointer-events:auto;}
+.vp-tools{position:absolute;right:6px;top:28px;display:flex;gap:3px;flex-wrap:wrap;justify-content:flex-end;max-width:60%;}
+.vp-hud{
+  position:absolute;left:6px;bottom:6px;font-family:var(--mono);font-size:10px;color:var(--hudTxt);
+  background:var(--hudBg);padding:3px 6px;border-radius:2px;pointer-events:none;line-height:1.5;white-space:pre;
+}
+
+/* ---------------- V3.0：选中目标的三维坐标标签 ----------------
+ * 贴在 #view3d（三维视口）上，跟随被选中目标在屏幕上的投影位置移动。
+ * 与三维里的选中圆环配套：圆环告诉你"选中了哪个"，标签告诉你"它在哪"。
+ * 拖动目标时这两个都实时跟随，所以可以直接照着数字把目标摆到指定 ENU 上。
+ *
+ * ★ transform 用 translate(14px,-50%) 而不是算好的像素：定位靠 left/top，
+ *   偏移交给合成器，避免每帧改四个属性触发两次重排。 */
+.sel3d-tag{
+  position:absolute;left:0;top:0;display:none;pointer-events:none;
+  transform:translate(14px,-50%);
+  font-family:var(--mono);font-size:10px;line-height:1.45;white-space:nowrap;
+  background:var(--hudBg);color:var(--hudTxt);
+  border:1px solid var(--acc);border-left-width:3px;
+  padding:3px 7px;border-radius:2px;
+  box-shadow:0 1px 4px rgba(0,0,0,.22);
+  z-index:6;
+}
+.sel3d-tag .st-nm{
+  display:block;font-family:inherit;font-size:10px;font-weight:700;
+  color:var(--acc);margin-bottom:1px;
+}
+.sel3d-tag .st-en{display:block;font-family:inherit;}
+.sel3d-tag .st-en b{font-weight:400;opacity:.62;margin-right:2px;}
+.sel3d-tag .st-hint{
+  display:block;font-family:inherit;font-size:9px;opacity:.6;margin-top:1px;
+}
+/* V2.0：#splitter 已随并排布局一起撤除（视口改由视图页签全屏切换）。 */
+
+/* ---------------- 三维深度色标图例 ---------------- */
+#depthLegend{
+  position:absolute;right:6px;bottom:6px;width:58px;pointer-events:none;
+  font-family:var(--mono);font-size:9px;color:var(--cbLabTxt);text-align:center;line-height:1.25;
+  background:var(--hudBg);padding:3px 4px;border-radius:2px;
+}
+#depthLegend .dl-bar{width:14px;height:64px;margin:2px auto;border:1px solid var(--cbBorder);border-radius:2px;}
+#depthLegend .dl-cap{font-size:9px;opacity:.9;}
+
+/* ---------------- 控制台（V2.0：移到最右侧一栏，纵向三区） ----------------
+   纵向顺序：① 运行控制  ② 实时指标  ③ 仿真日志（占满剩余高度）。
+   指标网格在 342 px 宽的右栏里铺成 2 列 × 7 行（14 项）。 */
+#panelConsole{flex:1 1 auto;min-height:0;}
+#panelConsole.con-collapsed{flex:0 0 auto;}
+#conBody{flex-direction:column;align-items:stretch;overflow:hidden;}
+.con-zone{
+  display:flex;flex-direction:column;min-height:0;padding:4px 7px;
+  border-bottom:1px solid var(--line2);
+}
+.con-zone:last-child{border-bottom:0;}
+.zone-cap{
+  flex:0 0 auto;font-size:10.5px;color:var(--txt2);font-weight:700;letter-spacing:.5px;
+  padding:1px 2px 3px;
+}
+.con-run{flex:0 0 auto;}
+.con-run .con-ctrl{gap:6px;}
+.con-run .btn{flex:1 1 0;min-width:0;padding:4px 4px;}
+/* 模式 / 精度档 / 时间加速：标签与下拉左右配对，避免竖排吃掉高度 */
+.con-ctrl.con-col{display:grid;grid-template-columns:auto 1fr;gap:3px 6px;align-items:center;}
+.con-ctrl.con-col label{font-size:10.5px;white-space:nowrap;}
+.con-ctrl.con-col select{width:100%;min-width:0;}
+.con-stat{flex:0 0 auto;}
+.con-log{flex:1 1 auto;min-height:120px;padding:0;}
+.con-ctrl{display:flex;align-items:center;gap:5px;padding:4px 2px;flex-wrap:wrap;}
+.con-ctrl label{color:var(--txt2);font-size:11px;}
+.btn{
+  border:1px solid var(--line);background:linear-gradient(var(--inputBg),var(--panel2));border-radius:3px;
+  padding:4px 12px;cursor:pointer;font-size:11.5px;font-family:inherit;color:var(--txt);
+}
+.btn:hover{border-color:var(--acc);color:var(--acc2);}
+.btn.primary{background:linear-gradient(#3d84f0,#1f6feb);color:#fff;border-color:#1a5fcc;font-weight:600;}
+.btn.primary:hover{background:linear-gradient(#4b8ff5,#2b7bf0);color:#fff;}
+.btn:disabled{opacity:.5;cursor:default;}
+.btn-mini{
+  border:1px solid var(--line);background:linear-gradient(var(--inputBg),var(--panel2));border-radius:2px;
+  padding:1px 6px;cursor:pointer;font-size:10.5px;font-family:inherit;color:var(--txt);
+}
+.btn-mini:hover{background:var(--acc);color:#fff;border-color:var(--acc);}
+.btn-mini.on{background:var(--acc);color:#fff;}
+.sel-mini{border:1px solid var(--line);border-radius:2px;padding:1px 3px;font-size:10.5px;font-family:inherit;background:var(--inputBg);color:var(--txt);}
+.con-metrics{
+  flex:1 1 auto;min-height:0;align-content:start;
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));
+  gap:2px 6px;padding:2px 2px;font-family:var(--mono);font-size:10.5px;
+}
+.con-metrics .mi{
+  display:flex;align-items:baseline;justify-content:space-between;gap:6px;
+  background:var(--panel2);border:1px solid var(--line2);border-radius:2px;padding:1px 5px;min-width:0;
+}
+.con-metrics .k{color:var(--txt2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.con-metrics .v{color:var(--acc2);font-weight:700;white-space:nowrap;}
+.log-head{
+  flex:0 0 auto;display:flex;align-items:center;justify-content:space-between;gap:8px;
+  padding:3px 8px;font-size:11px;color:var(--txt2);background:var(--panel3);border-bottom:1px solid var(--line2);
+}
+.log-win{
+  flex:1 1 auto;min-height:60px;background:var(--logBg);color:var(--logTxt);
+  font-family:var(--mono);font-size:10.5px;padding:4px 6px;line-height:1.55;
+  /* V2.2：flex 子项默认 min-width:auto —— 含长句的日志行会把右栏整体撑宽，
+     文字直接冲出面板右边界（被外层的 overflow:hidden 裁掉，后半句看不全）。
+     min-width:0 允许收缩到父宽，再交给 overflow-wrap 折行。 */
+  min-width:0;overflow-x:hidden;overflow-wrap:anywhere;
+}
+.log-win .l-info{color:var(--logInfo);}
+.log-win .l-warn{color:var(--logWarn);}
+.log-win .l-err{color:var(--logErr);}
+.log-win .l-ok{color:var(--logOk);}
+
+/* ================= V3.0：底部控制台（一长条） =================
+ * V2.0 把控制台挪到右栏是为了给"运行控制 / 指标 / 日志"三块竖向空间，
+ * 代价是中栏少掉 342 px —— 而那正是三维视口与扇形成像图最缺的宽度。
+ * V3.0 移回底部并压成横条：中栏拿回全宽，控制台自己的三个区改为横向排。 */
+#bottomConsole{
+  flex:0 0 auto;display:flex;align-items:stretch;gap:0;
+  background:var(--panel);border-top:1px solid var(--line2);
+  min-height:0;overflow:hidden;
+}
+.bc-zone{display:flex;align-items:center;gap:6px;padding:5px 9px;min-width:0;}
+.bc-sep{flex:0 0 auto;width:1px;background:var(--line2);margin:7px 0;}
+.bc-grow{flex:1 1 auto;min-width:0;}
+/* 运行控制：四个按钮两行两列，横条里最紧凑又不至于挤成一条 */
+.bc-run{flex:0 0 auto;display:grid;grid-template-columns:1fr 1fr;gap:5px;align-content:center;}
+.bc-run .btn{padding:4px 10px;min-width:74px;}
+/* 运行参数：标签在上、下拉在下，三个一组横排 */
+.bc-par{flex:0 0 auto;gap:9px;}
+.bc-par label{display:flex;flex-direction:column;gap:2px;font-size:10px;color:var(--txt2);}
+.bc-par select{min-width:82px;}
+/* 实时指标：横向排布，宽度不够时左右滚动（不换行，免得把横条撑高） */
+.bc-stat{flex:1 1 auto;min-width:0;overflow-x:auto;overflow-y:hidden;padding:5px 6px;}
+#bottomConsole .con-metrics{
+  display:flex;flex-wrap:nowrap;align-items:center;gap:5px;padding:0;
+}
+#bottomConsole .con-metrics .mi{
+  flex:0 0 auto;flex-direction:column;align-items:flex-start;gap:0;
+  padding:2px 7px;min-width:64px;line-height:1.25;
+}
+#bottomConsole .con-metrics .k{font-size:9.5px;}
+#bottomConsole .con-metrics .v{font-size:11px;}
+.bc-tail{flex:0 0 auto;gap:8px;}
+
+/* ================= V3.0：仿真日志便签（默认收起，点按钮弹出） =================
+ * 做成可拖动的浮层，而不是常驻面板：日志是"出问题了回头翻"才看的内容，
+ * 常年占着一块版面不划算。便签纸的样式（微黄纸面 + 轻微旋转 + 投影）
+ * 是为了在视觉上明确"这是一张贴上去的临时纸片，不是版面的一部分"。 */
+#logNote{
+  position:fixed;right:26px;bottom:74px;width:420px;height:330px;z-index:60;
+  display:flex;flex-direction:column;
+  background:#fdf8e3;color:#3a3526;
+  border:1px solid #d9cf9f;border-radius:2px;
+  box-shadow:0 8px 24px rgba(0,0,0,.28),0 2px 6px rgba(0,0,0,.18);
+  transform:rotate(-.5deg);
+}
+#logNote.hide{display:none;}
+.ln-hd{
+  flex:0 0 auto;display:flex;align-items:center;gap:7px;
+  padding:5px 8px;background:#f2e9c8;border-bottom:1px solid #ddd3a4;
+  font-size:11.5px;font-weight:700;cursor:default;
+}
+.ln-title{flex:0 0 auto;}
+/* 拖把手：给一个明显的"可抓"提示（⋮⋮），cursor:grab 再补一层反馈 */
+.ln-grab{
+  flex:1 1 auto;cursor:grab;color:#a89b6d;letter-spacing:1px;font-size:12px;
+  text-align:left;padding-left:2px;user-select:none;
+}
+.ln-grab:active{cursor:grabbing;}
+#logNote .log-win{
+  background:transparent;color:#3a3526;flex:1 1 auto;
+}
+/* 便签里的日志行沿用主题色，但压深一档以适配米黄纸面 */
+#logNote .l-info{color:#4a6f8f;}
+#logNote .l-warn{color:#a8701a;}
+#logNote .l-err{color:#b03a2e;}
+#logNote .l-ok{color:#2e7d46;}
+
+/* ================= 驾控台（姿态仪 / 航向罗盘 / 按键说明） =================
+ * ★ V3.2 版式：三块从"横排一行"改成"上下三层"，与三维视口同宽：
+ *     ① 姿态仪 + 航向罗盘  —— 一行两个，各占一半（等宽），直径从 74 px 放大到
+ *        约 150 px。旧版两个表盘固定 74 px，地平线的 ±10/±20 刻度与罗盘的
+ *        方位数字在 74 px 里根本读不出来；
+ *     ② ROV 操控（键盘）  —— 单独一行通栏。旧版只分到约 205 px，
+ *        三组键帽挤成三列窄条，说明文字频繁被省略号截断。
+ * 原因很简单：V3.1 的列宽只有 30%，而这一列要同时装"视口 + 两个表盘 + 12 个键"，
+ * 横排必然谁都不够用。V3.2 把列宽加到 37.5% 并改成纵向分层，每块都拿到全宽。 */
+.cockpit{display:none;}                  /* 旧类名保留，避免老工程里的引用报错 */
+.ck-gauges{
+  flex:0 0 auto;display:flex;align-items:stretch;justify-content:center;
+  gap:10px;padding:6px 6px 2px;
+}
+/* 两个表盘各占一半（= 等宽），直径上限 100 px。
+ * 上限不是"舍不得放大"，而是这一列的纵向预算只有 ~554 px：
+ *    标题 17 + 三维视口 ≥138 + 摄像头视口 140 + 表盘/键帽行 ~109
+ * 表盘一旦跟着列宽无限长高（列宽 560 时会到 273），键帽说明就会被挤出
+ * 视口下沿裁掉。锁到固定值之后，各种窗口宽度下表盘都是同一个尺寸，
+ * 多出来的纵向空间全部让给三维视口（它才是 pull 取景的主视口）。
+ * ★ V3.4：上限由 240 → 160（用户要求压缩 1/3）。240 时两个表盘横排几乎顶满
+ *   整列，与上方三维视口抢视觉重心；160 后表盘退回"辅助读数"的定位，
+ *   多出来的 80 px 纵向高度全部还给三维视口。
+ * ★ V3.5：160 → 100。这一列新加了 140 px 高的摄像头视口，纵向必须再腾地方；
+ *   用户明确允许"俯仰航向的指示图标可以缩小"。同时表盘与键帽说明改为横排
+ *   （见 .ck-bottom），省下的一整行抵消了绝大部分开销，三维视口反而更高。
+ *   100 px 下读数字号仍保持 12 px（见 .ck-cap b），只是地平线刻度更紧。 */
+.ck-inst{
+  flex:0 1 100px;min-width:0;max-width:100px;position:relative;
+  display:flex;flex-direction:column;align-items:center;gap:2px;
+}
+/* 画布用 width:100% + 固有正方形比例：后备存储由 CK.resize() 按 DPR 设定，
+   于是表盘在任何列宽下都清晰、且恒为圆形（不会被拉成椭圆）。 */
+.ck-inst canvas{
+  width:100%;height:auto;display:block;border-radius:50%;
+  border:1px solid var(--line);background:#101a24;
+}
+/* 读数条压在表盘下沿内侧：省掉一条 16 px 的时间轴，把高度全留给表盘本身。
+   底下垫一层渐变，保证压在"地"（土黄）上也读得清。 */
+.ck-cap{
+  position:absolute;left:8%;right:8%;bottom:5px;
+  display:flex;align-items:baseline;justify-content:center;gap:4px;
+  font-family:var(--mono);font-size:10.5px;color:#e8eef5;white-space:nowrap;
+  background:linear-gradient(transparent,rgba(6,12,18,.72) 55%);
+  padding:5px 2px 2px;border-radius:0 0 8px 8px;pointer-events:none;
+  text-shadow:0 1px 2px rgba(0,0,0,.85);
+}
+.ck-cap b{font-size:12px;color:#ffd23f;}
+/* 按键说明：通栏，三组各占一列、组内竖排（见 85-cockpit.js 的说明） */
+.ck-keys{
+  flex:0 0 auto;min-width:0;display:flex;flex-direction:column;gap:2px;
+  padding:3px 7px 4px;border-top:1px solid var(--line2);background:var(--panel2);
+}
+.ck-keys-hd{
+  flex:0 0 auto;font-size:10.5px;font-weight:700;color:var(--txt2);letter-spacing:.4px;
+}
+.ck-keygrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:2px 10px;}
+.ck-kgrp{display:flex;flex-direction:column;gap:1px;min-width:0;}
+.ck-kgrp-nm{
+  font-size:9.5px;color:var(--txt2);font-weight:700;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  border-bottom:1px solid var(--line2);padding-bottom:1px;margin-bottom:1px;
+}
+.ck-krow{display:flex;flex-direction:column;gap:0;min-width:0;}
+.ck-kitem{display:flex;align-items:center;gap:4px;min-width:0;}
+.ck-key{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-width:19px;height:15px;padding:0 4px;
+  font-family:var(--mono);font-size:10px;line-height:1;
+  background:var(--inputBg);color:var(--txt);
+  border:1px solid var(--line);border-bottom-width:2px;border-radius:3px;
+  transition:background .06s,color .06s;
+}
+/* 按下时高亮：用户按一下就能确认"这个键管这个动作" */
+.ck-key.on{
+  background:var(--acc);color:#fff;border-color:var(--acc2);
+  transform:translateY(1px);border-bottom-width:1px;
+}
+.ck-kd{font-size:10px;color:var(--txt3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+
+/* ---------------- 信号观测（V2.1：成像栏下排整幅，标题条自带控件） ---------------- */
+.sig-wrap{flex:1 1 auto;min-height:0;position:relative;background:var(--plotBg);}
+#sigCanvas{position:absolute;left:0;top:0;width:100%;height:100%;}
+.sig-info{flex:0 0 auto;padding:2px 8px;font-family:var(--mono);font-size:10.5px;color:var(--txt2);border-top:1px solid var(--line2);background:var(--panel2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+
+/* ---------------- 色标条 ---------------- */
+#colorbar{
+  position:absolute;right:8px;top:34px;width:44px;bottom:34px;
+  display:flex;flex-direction:column;align-items:center;pointer-events:none;
+}
+#cbGrad{width:14px;flex:1 1 auto;border:1px solid var(--cbBorder);border-radius:2px;}
+#cbLab{font-family:var(--mono);font-size:9px;color:var(--cbLabTxt);text-align:center;width:44px;line-height:1.3;}
+
+/* ---------------- V3.2：派生量只读框 / 参数联动表 ---------------- */
+/* 派生量（波束数、阵元垂直开角）不给可编辑控件：它们没有自由度，
+   能改就等于允许"阵元 20 mm 却开角 120°"这种自相矛盾的配置。 */
+input.pcalc{
+  background:var(--panel2) !important;color:var(--acc2) !important;
+  border-style:dashed !important;font-weight:700;cursor:default;
+}
+/* 联动表：三列定宽 + 全部不换行。左栏只有约 290 px，早先让"由什么决定"整句折行，
+ * 第一列被挤到 3 行、整张表高得像面条；现在只用短名 + 公式，数字进 title 提示。 */
+.link-tb{width:100%;border-collapse:collapse;font-size:10.5px;table-layout:fixed;}
+.link-tb th{
+  text-align:left;font-weight:700;color:var(--txt2);
+  border-bottom:1px solid var(--line2);padding:2px 3px;
+}
+.link-tb th:nth-child(1),.link-tb td.lk-n{width:34%;}
+.link-tb th:nth-child(2),.link-tb td.lk-v{width:28%;}
+.link-tb th:nth-child(3),.link-tb td.lk-d{width:38%;}
+.link-tb td{padding:1.5px 3px;border-bottom:1px dotted var(--line2);vertical-align:middle;}
+.link-tb td.lk-n{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--txt);}
+.link-tb td.lk-v{
+  white-space:nowrap;font-family:var(--mono);font-size:10px;color:var(--txt);text-align:right;
+}
+.link-tb td.lk-d{
+  color:var(--txt3);font-size:9.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.link-eq{
+  margin-top:5px;padding:4px 6px;border-radius:3px;font-family:var(--mono);font-size:10.5px;
+  background:var(--inputBg);border:1px dashed var(--line);color:var(--acc2);
+  white-space:normal;line-height:1.55;word-break:break-word;
+}
+.link-warn{
+  margin-top:6px;padding:5px 7px;border-radius:3px;font-size:10.5px;line-height:1.6;
+  background:rgba(214,158,46,.12);border:1px solid rgba(214,158,46,.45);color:#8a6312;
+}
+.link-ok{margin-top:6px;font-size:10.5px;color:#2e7d46;}
+
+/* ---------------- 弹窗 / 提示 ---------------- */
+#modalMask{position:fixed;left:0;top:0;right:0;bottom:0;background:rgba(10,16,22,.55);z-index:900;display:flex;align-items:center;justify-content:center;}
+#modalBox{background:var(--panel);border:1px solid var(--line);border-radius:4px;min-width:420px;max-width:78vw;max-height:80vh;display:flex;flex-direction:column;box-shadow:0 18px 50px rgba(0,0,0,.45);color:var(--txt);}
+#modalHd{display:flex;align-items:center;padding:7px 10px;background:linear-gradient(var(--modalHd1),var(--modalHd2));color:var(--modalHdTxt);font-weight:600;font-size:12.5px;}
+#modalHd #modalClose{margin-left:auto;background:transparent;border:0;color:var(--modalHdTxt);font-size:16px;cursor:pointer;line-height:1;}
+#modalBd{padding:12px 14px;overflow:auto;font-size:12px;line-height:1.85;}
+#modalBd h4{margin:10px 0 4px;font-size:12px;color:var(--acc2);}
+#modalBd code{background:var(--panel3);padding:1px 4px;border-radius:2px;font-family:var(--mono);font-size:11px;}
+#modalBd table{border-collapse:collapse;width:100%;font-size:11.5px;}
+#modalBd td,#modalBd th{border:1px solid var(--line2);padding:3px 6px;}
+#modalBd th{background:var(--panel3);text-align:left;}
+#modalFt{padding:7px 10px;display:flex;gap:6px;justify-content:flex-end;border-top:1px solid var(--line2);background:var(--panel2);}
+#modalFt:empty{display:none;}
+#tooltip{
+  position:fixed;z-index:950;max-width:330px;background:var(--tooltipBg);color:var(--tooltipTxt);font-size:11px;line-height:1.6;
+  padding:6px 9px;border-radius:3px;box-shadow:0 6px 20px rgba(0,0,0,.4);pointer-events:none;
+}
+/* V2.0：角落版权改为底部状态条内的一行（不再 fixed 浮在画面上挡住视口） */
+#corner{font-size:10px;color:var(--cornerTxt);font-family:var(--mono);}
+input.invalid{border-color:var(--errLine) !important;background:var(--errBg) !important;}
+
+/* ==========================================================
+   V2.0 新增布局构件
+   ========================================================== */
+
+/* ---------------- 底部状态条 ---------------- */
+#statusbar{
+  flex:0 0 16px;display:flex;align-items:center;gap:10px;padding:0 4px;
+  color:var(--cornerTxt);font-size:10px;font-family:var(--mono);
+}
+.sb-grow{flex:1 1 auto;}
+.sb-tip{color:var(--txt3);}
+
+/* ---------------- 左侧七页参数栏 ---------------- */
+#leftPanels{background:var(--panel);border:1px solid var(--line);border-radius:3px;overflow:hidden;}
+.ptabs{
+  flex:0 0 auto;display:flex;flex-wrap:wrap;background:var(--panel3);border-bottom:1px solid var(--line);
+}
+/* 七个六字页签在 312 px 栏里排两行（4 + 3）；min-width 保证不挤成断词 */
+.ptab{
+  flex:1 1 auto;min-width:74px;background:transparent;border:0;border-right:1px solid var(--line2);
+  border-bottom:1px solid var(--line2);
+  padding:4px 2px;font-size:11px;cursor:pointer;color:var(--txt2);font-family:inherit;
+  white-space:nowrap;letter-spacing:-0.3px;
+}
+.ptab:hover{background:var(--hover);color:var(--acc2);}
+.ptab.on{background:var(--panel);color:var(--acc2);font-weight:700;box-shadow:inset 0 -2px 0 var(--acc);}
+/* 该页参数被改过、但用户还没回去看：右上角一个小圆点 */
+.ptab{position:relative;}
+.ptab.dirty::after{
+  content:"";position:absolute;top:3px;right:4px;width:4px;height:4px;border-radius:50%;
+  background:var(--warn);box-shadow:0 0 0 1px var(--panel3);
+}
+.ptab-body{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;}
+#paramScroll{flex:1 1 auto;min-height:0;padding:6px 8px 14px;}
+
+/* ---------------- 视图切换栏 ---------------- */
+.viewbar{
+  flex:0 0 auto;display:flex;align-items:center;gap:8px;padding:3px 6px;
+  background:var(--panel);border:1px solid var(--line);border-radius:3px;
+}
+.vb-group{display:flex;align-items:center;gap:5px;flex-wrap:wrap;}
+.vb-grow{flex:1 1 auto;}
+.vbtn{
+  border:1px solid var(--line);background:linear-gradient(var(--inputBg),var(--panel2));border-radius:3px;
+  padding:3px 14px;cursor:pointer;font-size:11.5px;font-family:inherit;color:var(--txt);
+}
+.vbtn:hover{border-color:var(--acc);color:var(--acc2);}
+.vbtn.on{background:linear-gradient(#3d84f0,#1f6feb);color:#fff;border-color:#1a5fcc;font-weight:600;}
+.vlab{color:var(--txt2);font-size:10.5px;white-space:nowrap;}
+.fval{font-family:var(--mono);font-size:10.5px;color:var(--acc2);min-width:34px;}
+
+/* ---------------- 工具条（三个视图各一条） ---------------- */
+.toolbar{
+  flex:0 0 auto;display:flex;align-items:center;gap:5px;padding:3px 6px;flex-wrap:wrap;
+  background:var(--panel);border:1px solid var(--line);border-radius:3px;
+}
+.tb-group{display:flex;align-items:center;gap:4px;}
+.tb-sep{width:1px;align-self:stretch;min-height:18px;background:var(--line2);margin:0 3px;}
+.tb-grow{flex:1 1 auto;}
+.tbtn{
+  border:1px solid var(--line);background:linear-gradient(var(--inputBg),var(--panel2));border-radius:2px;
+  padding:2px 8px;cursor:pointer;font-size:10.5px;font-family:inherit;color:var(--txt);white-space:nowrap;
+}
+.tbtn:hover{background:var(--acc);color:#fff;border-color:var(--acc);}
+.tbtn.on{background:var(--acc);color:#fff;border-color:var(--acc);}
+.tbtn.primary{background:linear-gradient(#3d84f0,#1f6feb);color:#fff;border-color:#1a5fcc;font-weight:600;}
+.chk-inline{display:flex;align-items:center;gap:3px;font-size:10.5px;color:var(--txt2);white-space:nowrap;}
+.chk-inline input{accent-color:var(--acc);}
+
+/* ---------------- 舞台：三个视图叠放 ---------------- */
+.stage{flex:1 1 auto;position:relative;min-height:0;}
+.view-pane{position:absolute;left:0;top:0;right:0;bottom:0;display:flex;flex-direction:column;gap:6px;
+  /* 不透明背景：本面板叠在「三维场景设置」之上时不能透出底下的画面 */
+  background:var(--bg);}
+/* 视图面板的隐藏用 .off（visibility:hidden）而非 display:none：
+   保留布局盒，隐藏期间 clientWidth/Height 仍是真实值，切回来时省一次
+   "尺寸从 0 恢复"的重排，画布上下文也不会被回收。 */
+.view-pane.off{visibility:hidden;pointer-events:none;}
+/* 叠放次序：三维场景设置永远在最底层且**始终参与布局**（哪怕被上层盖住），
+   原理演示 / 前视声呐成像激活时抬到上层（背景不透明，不会透出底层画面）。 */
+#paneScene{z-index:0;}
+#paneDemo,#paneImage{z-index:2;}
+
+/* ---------------- 视图①：三维场景设置 ---------------- */
+/* V2.1：左侧竖排抽屉撤除，三维视口独占整行 */
+.scene-row{flex:1 1 auto;display:flex;gap:6px;min-height:0;}
+.scene-row .viewport{flex:1 1 auto;min-width:0;}
+
+/* ---------------- 视图②：原理演示 ----------------
+   V3.7 改版：由「单幕占满中间面板」改为「宫格式演示台」。
+   一版同时摆 N 幅（默认 2×2 = 4 幅），每幅自带画布 + 参数滑块 + 一句提要；
+   右侧讲解栏给出当前选中幕的完整文字与公式。 */
+.demo-row{flex:1 1 auto;display:flex;gap:6px;min-height:0;}
+.demo-main{flex:1 1 auto;min-width:0;min-height:0;display:flex;}
+.demo-row.no-side .demo-side{display:none;}
+.demo-grid{
+  flex:1 1 auto;min-width:0;min-height:0;
+  display:grid;gap:6px;
+  grid-template-columns:repeat(var(--dcols,2),minmax(0,1fr));
+  grid-template-rows:repeat(var(--drows,2),minmax(0,1fr));
+}
+/* 一幅＝一张卡片：标题条 + 画布 + 控制条 + 提要 */
+.demo-card{
+  min-width:0;min-height:0;display:flex;flex-direction:column;overflow:hidden;
+  background:var(--plotBg);border:1px solid var(--line);border-radius:3px;
+}
+.demo-card.sel{border-color:var(--acc);box-shadow:0 0 0 1px var(--acc) inset;}
+/* 放大某一幅时，整版只留它自己（:not 才能连前面的兄弟一起藏掉，
+   只用 ~ 选择器前面的几张还会露出来） */
+.demo-grid.one-max .demo-card:not(.max){display:none;}
+.demo-grid.one-max{grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(0,1fr);}
+.demo-chd{
+  flex:0 0 auto;display:flex;align-items:center;gap:6px;padding:3px 6px;
+  background:var(--panel2);border-bottom:1px solid var(--line2);cursor:pointer;user-select:none;
+}
+.demo-chd .cd-no{
+  flex:0 0 auto;font:700 10px var(--mono);color:var(--panel2);background:var(--acc);
+  border-radius:2px;padding:1px 4px;
+}
+.demo-card.sel .cd-no{background:var(--warn);}
+.demo-chd .cd-tt{
+  flex:1 1 auto;min-width:0;font-size:11.5px;font-weight:700;color:var(--txt);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.demo-chd .cd-btn{
+  flex:0 0 auto;border:1px solid var(--line);background:var(--panel);color:var(--txt2);
+  border-radius:2px;font-size:10px;line-height:1;padding:2px 4px;cursor:pointer;
+}
+.demo-chd .cd-btn:hover{color:var(--acc);border-color:var(--acc);}
+.demo-chd .cd-mode{font-size:9.5px;color:var(--txt3);font-family:var(--mono);}
+.demo-cstage{flex:1 1 auto;position:relative;min-height:0;}
+.demo-cstage canvas{position:absolute;left:0;top:0;width:100%;height:100%;display:block;cursor:crosshair;}
+.demo-ctrls{
+  flex:0 0 auto;display:flex;flex-wrap:wrap;gap:4px 8px;align-items:center;
+  padding:3px 6px;background:var(--panel2);border-top:1px solid var(--line2);
+}
+.demo-ctrls .ct{display:flex;align-items:center;gap:4px;font-size:10px;color:var(--txt2);}
+.demo-ctrls .ct input[type=range]{width:88px;}
+.demo-ctrls .ct .ctv{font-family:var(--mono);font-size:10px;color:var(--warn);min-width:46px;}
+.demo-ccap{
+  flex:0 0 auto;padding:2px 6px;font-size:10.5px;line-height:1.5;color:var(--txt2);
+  background:var(--panel);border-top:1px dashed var(--line);
+}
+.demo-side{
+  flex:0 0 300px;min-height:0;background:var(--panel);border:1px solid var(--line);border-radius:3px;
+  padding:8px 10px;display:flex;flex-direction:column;gap:6px;
+}
+.demo-hd{font-size:13px;font-weight:700;color:var(--acc2);border-bottom:1px solid var(--line2);padding-bottom:4px;}
+.demo-bd{font-size:11.5px;line-height:1.85;color:var(--txt);}
+.demo-bd b{color:var(--acc2);}
+.demo-fml{
+  font-family:var(--mono);font-size:11px;line-height:1.9;color:var(--txt2);
+  background:var(--panel2);border:1px dashed var(--line);border-radius:3px;padding:6px 8px;white-space:pre-wrap;
+}
+
+/* ---------------- 视图③：前视声呐成像 ----------------
+   V2.1 版式（用户指定）：
+     上排（约 70% 高）：左 = 三维场景视口（跟随 ROV）／ 右 = 扇形成像主图
+                       —— 同一 flex 行，两者高度必然相等：扇图上提、三维视口加高
+     下排（约 30% 高）：阵元级信号观测，宽度 = 上排总宽
+                       —— 旧版挤在 34% 宽的窄列里，现加宽到整幅，曲线不再叠在一起 */
+.img-wrap{flex:1 1 auto;display:flex;flex-direction:column;gap:6px;min-height:0;}
+.img-top{flex:1 1 auto;display:flex;gap:6px;min-height:0;}
+.img-cell{
+  position:relative;min-height:0;min-width:0;background:var(--vpBg);border:1px solid var(--line);border-radius:3px;
+  display:flex;flex-direction:column;overflow:hidden;
+}
+/* 三维视口占上排宽度 30%（上限 420 px，下限 240 px），其余全给扇形图 */
+/* ★ V3.2：三维视口加宽 25%（30% → 37.5%），上限同步放宽到 560 px。
+   加宽的理由：视口下方要放两个约 150 px 的表盘 + 通栏键盘说明，
+   30% 宽（默认窗口下约 390 px）连两个表盘都摆不平。 */
+.img-cell-3d{flex:0 0 37.5%;max-width:560px;min-width:300px;}
+.img-top #viewSonar{flex:1 1 auto;min-width:0;}
+/* 信号格：整幅宽、高度约为旧版（44%）的三分之二 ≈ 30% */
+.img-cell-sig{flex:0 0 30%;}
+.img-cap{
+  flex:0 0 17px;font-size:10px;color:var(--vpNote);background:linear-gradient(var(--vpTitle1),var(--vpTitle2));
+  padding:0 6px;display:flex;align-items:center;letter-spacing:.3px;
+}
+/* V2.1：信号窗口自己的标题条（阵元 / 曲线 / 预处理后 / 导出 CSV 回到这里） */
+.sig-bar{
+  flex:0 0 auto;display:flex;align-items:center;gap:5px;padding:2px 6px;
+  background:linear-gradient(var(--vpTitle1),var(--vpTitle2));border-bottom:1px solid var(--line2);
+}
+.sig-bar .sig-cap{background:none;flex:0 0 auto;padding:0;color:var(--vpNote);font-size:10.5px;font-weight:600;}
+.sig-bar .vlab{font-size:10px;}
+/* mini 三维视口：跟随 ROV 的相机，画布铺满所在格 */
+#host3dMini{flex:1 1 auto;min-height:138px;}
+#host3dMini canvas{display:block;position:absolute;left:0;top:0;}
+
+/* ==================================================================
+ * ★ V3.5：虚拟摄像头视口 + 底行（表盘 / 键帽说明）重排
+ * ------------------------------------------------------------------
+ * 纵向预算（默认窗口 950 px 高，左列可用约 554 px）：
+ *     标题1 17 + 三维视口 ≥138 + 标题2 17 + 摄像头 140 + 底行 ~104
+ *   → 三维视口仍拿得到 ~276 px，比旧版（~224 px）还高。
+ *   关键在底行：表盘与键帽说明**横排**而不是各占一整行，省下约 96 px，
+ *   这 96 px 正好抵掉摄像头视口的绝大部分开销。
+ * ================================================================== */
+.cam-cap{gap:8px;}
+.cam-fov{
+  margin-left:auto;font-family:var(--mono);font-size:9.5px;color:var(--acc2);
+  white-space:nowrap;letter-spacing:0;
+}
+/* 高度锁死 140 px（不随列宽伸缩）：
+   摄像头的宽高比直接决定垂直视场（see 61-camview.solveFov），
+   让它跟着窗口乱伸缩，视场角就会跟着变，"不低于声呐"这条约束也就没法核对。
+   140 px 是"读得清画面"与"留给三维视口足够高度"的折中。 */
+#hostCam{
+  flex:0 0 140px;height:140px;min-height:0;background:#0b1420;
+}
+#hostCam.off{display:none;}
+#hostCam canvas{display:block;position:absolute;left:0;top:0;}
+/* HUD 压在 WebGL 画面之上：不吃鼠标事件，纯标注 */
+.cam-hud{pointer-events:none;}
+/* 底行：表盘（定宽）+ 键帽说明（吃掉剩余宽度）；窄列时自动换行回竖排 */
+.ck-bottom{
+  flex:0 0 auto;display:flex;align-items:stretch;gap:8px;flex-wrap:wrap;
+  padding:5px 6px 4px;border-top:1px solid var(--line2);
+}
+.ck-bottom .ck-gauges{flex:0 0 auto;padding:0;}
+.ck-bottom .ck-keys{
+  flex:1 1 190px;min-width:0;border-top:none;background:none;padding:0;
+}

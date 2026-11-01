@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>数字信号处理知识学习实践系统 V1.1 — 理论·仿真·工程案例·公式手册</title>
+<meta name="description" content="数字信号处理知识学习实践系统：面向高校师生与雷达/声呐工程师的在线学习平台，理论讲解 + 可交互动态仿真 + 工程案例 + 带解读的公式库。纯前端离线运行。">
+
+<!-- ===== 样式 ===== -->
+<link rel="stylesheet" href="vendor/katex/katex.min.css">
+<link rel="stylesheet" href="assets/css/theme.css">
+<link rel="stylesheet" href="assets/css/layout.css">
+<link rel="stylesheet" href="assets/css/components.css">
+
+<!-- ===== 第三方库（本地化，离线可用） ===== -->
+<script src="vendor/katex/katex.min.js"></script>
+<script src="vendor/chart.umd.min.js"></script>
+</head>
+<body>
+
+<div id="app">
+  <!-- ===================== 顶栏 ===================== -->
+  <header class="topbar">
+    <button class="btn icon ghost" id="btn-sidebar" title="展开/收起目录">☰</button>
+
+    <div class="brand">
+      <div class="logo">DSP</div>
+      <div class="brand-txt">
+        <div class="title">
+          <span class="t-name">数字信号处理知识学习实践系统</span>
+          <span class="ver" id="app-ver">V1.1</span>
+        </div>
+        <div class="subtitle slogan" id="app-slogan">（老海出手必是精品，更多好用软件关注海疆智造公众号加老海微信，视频教学关注海疆智造抖音号）</div>
+      </div>
+    </div>
+
+    <div class="search">
+      <span class="ico">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path>
+        </svg>
+      </span>
+      <input id="search-in" type="text" placeholder="搜索知识点 / 术语 / 公式…" autocomplete="off" spellcheck="false">
+      <span class="kbd-hint">Ctrl+K</span>
+      <div class="search-results" id="search-res"></div>
+    </div>
+
+    <div class="tools">
+      <button class="btn ghost" id="btn-theme" title="当前：深色模式，点击切换为浅色（快捷键 D）"><span class="th-ico">☀</span><span class="th-tx">切到浅色</span></button>
+      <button class="btn ghost" id="btn-notes" title="笔记 (N)">📝 笔记<span id="note-count" style="display:none"></span></button>
+      <button class="btn ghost" id="btn-share" title="分享链接 / 导出页面">🔗 分享</button>
+      <button class="btn icon ghost" id="btn-help" title="帮助">?</button>
+    </div>
+  </header>
+
+  <!-- ===================== 侧边导航 ===================== -->
+  <aside class="sidebar" id="sidebar"></aside>
+
+  <!-- ===================== 主内容 ===================== -->
+  <main class="main">
+    <div id="view"></div>
+  </main>
+</div>
+
+<div id="toast-host"></div>
+
+<!-- ============================================================
+     脚本加载顺序（非 module，保证 file:// 双击直接打开可用）
+     1) 核心层：工具 / 算法 / 绘图 / UI / 服务 / 路由 / 导航
+     2) 内容层：理论、实验台、案例、数据
+     3) 视图层：各板块页面
+     4) 启动
+     ============================================================ -->
+
+<!-- 0) 应用元信息（名称 / 版本 / 口号，全站唯一来源） -->
+<script src="assets/js/core/appinfo.js"></script>
+
+<!-- 1) 核心层 -->
+<script src="assets/js/core/util.js"></script>
+<script src="assets/js/core/dsp-core.js"></script>
+<script src="assets/js/core/plot.js"></script>
+<script src="assets/js/core/ui.js"></script>
+<script src="assets/js/core/glossary.js"></script>
+<script src="assets/js/core/notes.js"></script>
+<script src="assets/js/core/share.js"></script>
+<script src="assets/js/core/router.js"></script>
+<script src="assets/js/core/registry.js"></script>
+
+<!-- 2) 内容层
+     2.1 解析器与数据 -->
+<script src="assets/js/content/doc.js"></script>
+<script src="assets/js/content/theory-basic.js"></script>
+<script src="assets/js/content/theory-transform.js"></script>
+<script src="assets/js/content/theory-filter.js"></script>
+<script src="assets/js/content/theory-spectrum.js"></script>
+<script src="assets/js/content/theory-random-array.js"></script>
+<script src="assets/js/data/formulas.js"></script>
+<script src="assets/js/data/code-examples.js"></script>
+<script src="assets/js/data/quiz.js"></script>
+<script src="assets/js/data/resources.js"></script>
+<script src="assets/js/cases/sonar.js"></script>
+<script src="assets/js/cases/radar.js"></script>
+<script src="assets/js/toolbox/toolbox.js"></script>
+
+<!-- 2.2 交互实验台 -->
+<script src="assets/js/labs/lab-kit.js"></script>
+<script src="assets/js/labs/lab-sampling.js"></script>
+<script src="assets/js/labs/lab-dft.js"></script>
+<script src="assets/js/labs/lab-window.js"></script>
+<script src="assets/js/labs/lab-fftflow.js"></script>
+<script src="assets/js/labs/lab-stft.js"></script>
+<script src="assets/js/labs/lab-zplane.js"></script>
+<script src="assets/js/labs/lab-conv.js"></script>
+<script src="assets/js/labs/lab-fir.js"></script>
+<script src="assets/js/labs/lab-matched.js"></script>
+<script src="assets/js/labs/lab-music.js"></script>
+
+<!-- 3) 视图层 -->
+<script src="assets/js/views/home.js"></script>
+<script src="assets/js/views/framework.js"></script>
+<script src="assets/js/views/section-hub.js"></script>
+<script src="assets/js/views/placeholder-pages.js"></script>
+
+<!-- 4) 启动 -->
+<script src="assets/js/app.js"></script>
+</body>
+</html>
